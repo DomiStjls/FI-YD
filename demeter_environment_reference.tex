@@ -1,0 +1,253 @@
+
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[a4paper,margin=1.7cm]{geometry}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{amsmath,amssymb}
+\usepackage{siunitx}
+\usepackage[most]{tcolorbox}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{setspace}
+
+\definecolor{DemeterBlue}{HTML}{102A43}
+\definecolor{DemeterSky}{HTML}{1F6FEB}
+\definecolor{DemeterLight}{HTML}{F4F7FB}
+\definecolor{DemeterLine}{HTML}{D9E2EC}
+\definecolor{DemeterText}{HTML}{243B53}
+\definecolor{DemeterMuted}{HTML}{486581}
+\definecolor{DemeterAccent}{HTML}{DCEBFF}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=DemeterSky,
+  urlcolor=DemeterSky,
+  pdftitle={Demeter Design Reference Environment},
+  pdfauthor={OpenAI for Yaroslav}
+}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.45em}
+\renewcommand{\arraystretch}{1.22}
+\setlength{\headheight}{14pt}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\textcolor{DemeterMuted}{Demeter Design Reference Environment v1.0}}
+\fancyhead[R]{\textcolor{DemeterMuted}{Psyche mission case}}
+\fancyfoot[L]{\textcolor{DemeterMuted}{Prepared for presentation use}}
+\fancyfoot[R]{\textcolor{DemeterMuted}{\thepage/\pageref{LastPage}}}
+\renewcommand{\headrulewidth}{0.2pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\titleformat{\section}{\Large\bfseries\color{DemeterBlue}}{\thesection}{0.6em}{}
+\titleformat{\subsection}{\large\bfseries\color{DemeterText}}{}{0em}{}
+
+\newtcolorbox{hero}{
+  enhanced,
+  colback=DemeterLight,
+  colframe=DemeterBlue,
+  boxrule=0.8pt,
+  arc=3mm,
+  left=3mm,right=3mm,top=2.2mm,bottom=2.2mm
+}
+
+\newtcolorbox{formulaBox}{
+  enhanced,
+  breakable,
+  colback=white,
+  colframe=DemeterLine,
+  boxrule=0.5pt,
+  arc=2mm,
+  left=3mm,right=3mm,top=2mm,bottom=2mm
+}
+
+\newcommand{\keynum}[1]{\textcolor{DemeterBlue}{\textbf{#1}}}
+\newcommand{\unitau}{\,\mathrm{au}}
+
+\begin{document}
+
+\begin{hero}
+{\LARGE\bfseries\color{DemeterBlue} Demeter Design Reference Environment (DRE) v1.0}\\[0.4em]
+{\large \color{DemeterText} Unified constants, environmental assumptions, and core equations for first-pass engineering calculations near \textbf{16 Psyche}.}\\[0.8em]
+\textcolor{DemeterMuted}{Purpose: freeze a single team-wide baseline for transport, communications, AI operations, thermal analysis, and mining robotics.}
+\end{hero}
+
+\vspace{0.6em}
+\begin{tabularx}{\textwidth}{@{}>{\bfseries}l X@{}}
+Adopted operating context & Demeter is modeled as a deep-space settlement operating near Psyche in hard vacuum, with low gravity, delayed Earth communications, and strong dependence on local autonomy. \\
+Key engineering assumption & For thermal calculations, use \(A=0.15\) and \(\varepsilon=0.90\). For contact-mechanics and robot design, keep a conservative gravity baseline of \(g_{ref}=\SI{0.08}{m/s^2}\). \\
+\end{tabularx}
+
+\section{Fundamental constants}
+
+\begin{center}
+\begin{tabularx}{0.98\textwidth}{@{}l c >{\raggedleft\arraybackslash}X l@{}}
+\toprule
+Quantity & Symbol & Value & Units \\
+\midrule
+Speed of light & \(c\) & \num{2.99792458e8} & \si{m/s} \\
+Astronomical unit & \(1\,\mathrm{au}\) & \num{1.495978707e11} & \si{m} \\
+Gravitational constant & \(G\) & \num{6.67430e-11} & \si{m^3.kg^{-1}.s^{-2}} \\
+Stefan--Boltzmann constant & \(\sigma\) & \num{5.670374419e-8} & \si{W.m^{-2}.K^{-4}} \\
+Solar constant at 1 au & \(S_{1au}\) & \num{1361.6} & \si{W/m^2} \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\section{Reference Psyche parameters}
+
+\begin{center}
+\begin{tabularx}{0.98\textwidth}{@{}l c >{\raggedleft\arraybackslash}X l@{}}
+\toprule
+Quantity & Symbol & Value & Units \\
+\midrule
+Perihelion distance & \(q\) & \num{2.54} & au \\
+Mean working distance & \(a\) & \num{2.93} & au \\
+Aphelion distance & \(Q\) & \num{3.32} & au \\
+Effective diameter & \(D_{eff}\) & \num{226} & km \\
+Effective radius & \(R_{eff}\) & \num{1.13e5} & m \\
+Reference mass & \(M\) & \num{2.41e19} & kg \\
+Bulk density & \(\rho\) & \num{3990} & \si{kg/m^3} \\
+Rotation period & \(P_{rot}\) & \num{4.196} & h \\
+Bond albedo (design) & \(A\) & \num{0.15} & --- \\
+Emissivity (design) & \(\varepsilon\) & \num{0.90} & --- \\
+Conservative nominal gravity baseline & \(g_{ref}\) & \num{0.08} & \si{m/s^2} \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\section{Core equations}
+
+\begin{formulaBox}
+\[
+S(r)=\frac{S_{1au}}{r^2}
+\qquad
+T_{eq}=\left(\frac{(1-A)S}{4\varepsilon\sigma}\right)^{1/4}
+\qquad
+T_{ss}=\left(\frac{(1-A)S}{\varepsilon\sigma}\right)^{1/4}
+\]
+\[
+\mu = GM
+\qquad
+\omega = \frac{2\pi}{P_{rot}}
+\qquad
+g = \frac{\mu}{r^2}
+\qquad
+a_{cf}=\omega^2 r
+\qquad
+g_{eff}=g-a_{cf}
+\qquad
+v_{esc}=\sqrt{\frac{2\mu}{r}}
+\]
+\[
+t_{light}=\frac{d}{c}
+\]
+\end{formulaBox}
+
+\section{Derived thermal environment}
+
+Using \(A=0.15\) and \(\varepsilon=0.90\):
+
+\begin{center}
+\begin{tabularx}{0.98\textwidth}{@{}l >{\raggedleft\arraybackslash}X >{\raggedleft\arraybackslash}X >{\raggedleft\arraybackslash}X >{\raggedleft\arraybackslash}X@{}}
+\toprule
+Case & \(r\) [au] & Solar flux \(S\) [\si{W/m^2}] & \(T_{eq}\) [K] & \(T_{ss}\) [K] \\
+\midrule
+Perihelion & 2.54 & 211.048 & 172.176 & 243.493 \\
+Mean working orbit & 2.93 & 158.604 & 160.308 & 226.710 \\
+Aphelion & 3.32 & 123.530 & 150.598 & 212.978 \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\begin{hero}
+\textbf{Interpretation.} Demeter operates in a cold radiative environment: even at the mean orbit, solar input is only about \keynum{158.6 \si{W/m^2}}, far below Earth orbit. Thermal design must therefore emphasize insulation, radiator control, and heat recapture rather than atmospheric heat exchange.
+\end{hero}
+
+\section{Surface mechanics at Psyche}
+
+Spherical-reference estimates at \(R_{eff}=\SI{113000}{m}\):
+
+\begin{center}
+\begin{tabularx}{0.98\textwidth}{@{}l c >{\raggedleft\arraybackslash}X l@{}}
+\toprule
+Quantity & Symbol & Value & Units \\
+\midrule
+Standard gravitational parameter & \(\mu\) & \num{1.6085063e9} & \si{m^3/s^2} \\
+Angular velocity & \(\omega\) & \num{4.1595e-4} & \si{rad/s} \\
+Surface gravity at \(R_{eff}\) & \(g\) & \num{0.12597} & \si{m/s^2} \\
+Centrifugal reduction at \(R_{eff}\) & \(a_{cf}\) & \num{0.01955} & \si{m/s^2} \\
+Effective gravity at \(R_{eff}\) & \(g_{eff}\) & \num{0.10642} & \si{m/s^2} \\
+Escape speed at \(R_{eff}\) & \(v_{esc}\) & \num{168.728} & \si{m/s} \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\begin{formulaBox}
+\textbf{Design note.} The computed \(g_{eff}\) is a spherical-reference value. For mining robots, anchoring, drilling, and contact-force envelopes, the project baseline remains the more conservative \(g_{ref}=\SI{0.08}{m/s^2}\). This makes the design robust against local topography, shape irregularity, and operational uncertainty.
+\end{formulaBox}
+
+\section{Earth--Psyche communication latency}
+
+\begin{center}
+\begin{tabularx}{0.98\textwidth}{@{}l >{\raggedleft\arraybackslash}X >{\raggedleft\arraybackslash}X >{\raggedleft\arraybackslash}X@{}}
+\toprule
+Case & Distance [million miles] & Distance [\(10^9\) m] & One-way light time [min] \\
+\midrule
+Minimum separation & 186 & 0.299337984 & 16.641 \\
+Maximum separation & 372 & 0.598675968 & 33.283 \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\begin{hero}
+\textbf{Operational consequence.} No critical subsystem should assume real-time control from Earth. Demeter must be designed around \textbf{local autonomy}, \textbf{delay-tolerant networking}, and \textbf{human--AI teaming} under multi-minute one-way latency.
+\end{hero}
+
+\section{Recommended frozen baseline for team calculations}
+
+\begin{center}
+\begin{tabularx}{0.98\textwidth}{@{}l >{\raggedleft\arraybackslash}X l@{}}
+\toprule
+Baseline quantity & Value & Units \\
+\midrule
+Working solar distance & 2.93 & au \\
+Perihelion / aphelion envelope & 2.54 / 3.32 & au \\
+Solar flux at working orbit & 158.604 & \si{W/m^2} \\
+Reference mass & \num{2.41e19} & kg \\
+Reference gravitational parameter & \num{1.6085063e9} & \si{m^3/s^2} \\
+Rotation period & 4.196 & h \\
+Spherical-reference effective gravity & 0.10642 & \si{m/s^2} \\
+Conservative project gravity baseline & 0.08 & \si{m/s^2} \\
+Escape speed & 168.728 & \si{m/s} \\
+Thermal equilibrium temperature at working orbit & 160.308 & K \\
+Subsolar temperature at working orbit & 226.710 & K \\
+One-way Earth latency envelope & 16.64--33.28 & min \\
+External environment & Hard vacuum & qualitative \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\section{Engineering implications}
+
+\begin{itemize}[leftmargin=1.4em]
+  \item \textbf{Anchoring is mandatory.} Low gravity makes excavation, drilling, and reaction-force management fundamentally different from terrestrial mining.
+  \item \textbf{External heat transfer is radiative.} There is no atmospheric convection; subsystem thermal models should be radiator- and insulation-centric.
+  \item \textbf{Local autonomy is non-optional.} Earth latency in the tens of minutes rules out real-time teleoperation for safety-critical actions.
+  \item \textbf{Use one baseline across the whole team.} A unified environment model prevents contradictions between transport, communications, AI, and robotics slides.
+\end{itemize}
+
+\vfill
+\textcolor{DemeterMuted}{Source basis: public NASA Psyche mission information and frozen engineering assumptions adopted for the Demeter concept study.}
+
+\end{document}
