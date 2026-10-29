@@ -1,62 +1,20 @@
 # Demeter
 
-Engineering concepts, environment modeling, and system design materials for **Demeter** — a conceptual asteroid-belt settlement near **16 Psyche**.
+Engineering concepts and environment modeling for **Demeter**, a conceptual settlement near the asteroid 16 Psyche.
 
-## Overview
+## Contents
 
-This repository contains the core technical groundwork for the Demeter project:
+- [notebooks/](notebooks/) — calculations and visualizations.
+- [docs/](docs/) — environment reference in PDF and LaTeX.
+- [task_files/](task_files/) — source materials for the project.
 
-- reference environment model for Psyche and its vicinity
-- physical constants and baseline assumptions for calculations
-- transport, communication, AI, and robotics concepts
-- presentation-ready technical materials
-- notebooks and documents for further system design
+The repository represents an early concept and modeling stage.
 
-## Repository Structure
-
-```text
-.
-├── notebooks/        # Calculations, simulations, engineering baselines
-├── docs/             # Technical notes, reports, formula sheets
-├── assets/           # Images, diagrams, presentation materials
-├── presentation/     # Slides and supporting visuals
-└── README.md
-````
-
-## Included Materials
-
-* **Design Reference Environment** for Demeter
-* orbital, thermal, and gravity baseline for Psyche
-* communication delay and power assumptions
-* mining robot and infrastructure concepts
-* LaTeX-ready and presentation-ready documentation
-
-## Getting Started
-
-Clone the repository:
+## Getting started
 
 ```bash
-git clone https://github.com/your-username/demeter.git
-cd demeter
+git clone https://github.com/DomiStjls/FI-YD.git
+cd FI-YD
 ```
 
-Open the notebook and documents in the corresponding folders to reproduce calculations and use the project materials.
-
-## Project Goal
-
-The goal of this project is to turn the idea of an asteroid-belt settlement into a **coherent engineering concept** with clear assumptions, reusable calculations, and strong system-level architecture.
-
-## Tech Stack
-
-* Python
-* Jupyter Notebook
-* LaTeX / Typst
-* Markdown
-
-## Status
-
-Early concept and modeling stage.
-
-## License
-
-MIT
+Open the notebooks in Jupyter to explore the calculations. The reference is available as a [PDF](docs/demeter_environment_reference.pdf) and [LaTeX source](docs/demeter_environment_reference.tex).
